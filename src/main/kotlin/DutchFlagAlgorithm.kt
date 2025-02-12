@@ -1,34 +1,3 @@
-/*
-def dutchFlag(arr):
-    """
-    Given some array with 0s, 1s, and 2s, sort the array so that
-    the left contain all the 0s, the right contains all the 2s; and
-    the 1s are in between these 0s and 2s.
-    """
-    # Sorts the input array in place
-    low = 0
-    right = len(arr) - 1
-    mid = 0
-
-    while mid <= right:
-        if arr[mid] == "T":
-            arr[low], arr[mid] = arr[mid], arr[low]
-            mid += 1
-            low += 1
-        elif arr[mid] == "A":
-            mid += 1
-        else:
-            arr[mid] == "M"
-            arr[mid], arr[right] = arr[right], arr[mid]
-            right -= 1
-
-
-input_arr = ["T", "A", "M", "M", "A", "T"]
-print(f"This is the initial input array: {input_arr}")
-dutchFlag(input_arr)
-print(f"This is the sorted input array: {input_arr}")
-
- */
 fun dutchFlag(arr: ArrayList<Char>): ArrayList<Char> {
     /*
     Given some array with 0s, 1s, and 2s, sort the array so that
