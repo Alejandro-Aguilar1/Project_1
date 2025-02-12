@@ -1,7 +1,6 @@
 import java.io.*
 import java.net.ServerSocket
 
-
 fun main(){
     val port = 9999
     val server = ServerSocket(port)
@@ -14,9 +13,14 @@ fun main(){
 
         client.getInputStream().bufferedReader().use{ reader ->
             client.getOutputStream().bufferedWriter().use{ writer ->
-                val userInput = reader.readLine()
-                // val result = sequenceCheck(userInput)
-                writer.write("$userInput\n")
+                // We take the raw input of the user
+                val userInput: String = reader.readLine()
+
+                // We turn the raw input into an arrayList of characters
+                var tamTabClient: ArrayList<Char> = ArrayList(userInput.toList())
+                writer.write("Original Input Array ${tamTabClient}\n")
+                tamTabClient = sortTamServer(tamTabClient)
+                writer.write("Sorted Input Array ${tamTabClient}\n")
                 writer.flush()
             }
         }

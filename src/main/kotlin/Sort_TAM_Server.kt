@@ -47,9 +47,9 @@ fun swapServer(arr: ArrayList<Char>, i: Int, j: Int ) {
 
 // Sample of the code working
 // Uncomment for testing
-fun main(){
-    val inputArr = arrayListOf('T', 'M', 'A', 'T', 'M', 'A', 'A', 'T')
-    println("This is the original input arr: $inputArr")
-    val outputArr = sortTamServer(inputArr)
-    println("This is the new output array: $outputArr")
-}
+//fun main(){
+//    val inputArr = arrayListOf('T', 'M', 'A', 'T', 'M', 'A', 'A', 'T')
+//    println("This is the original input arr: $inputArr")
+//    val outputArr = sortTamServer(inputArr)
+//    println("This is the new output array: $outputArr")
+//}
