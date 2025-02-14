@@ -4,16 +4,26 @@ import java.util.Scanner
 fun main(){
     val scanner = Scanner(System.`in`)
     println("Enter input string, a sequence of T's, A's, and M's (end with '#')")
-    val tamTabClient = scanner.nextLine()
+
+    val inputBuilder = StringBuilder()
+    while (true) {
+        val line = scanner.nextLine()
+        if (line == "#") break
+        inputBuilder.append(line).append("\n")
+    }
+
+    val tamTabClient = inputBuilder.toString().dropLast(1)
 
     Socket("localhost", 9999).use { socket ->
         val writer = socket.outputStream.bufferedWriter()
         writer.write("$tamTabClient\n")
         writer.flush()
+
         socket.getInputStream().bufferedReader().use { reader ->
-            println("Input contains sequence: ${reader.readLine()}")
+            //println("Input contains sequence: ${reader.readLine()}")
+            reader.forEachLine { line ->
+                println(line)
+            }
         }
     }
 }
-
-// $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")

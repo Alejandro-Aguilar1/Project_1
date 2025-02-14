@@ -17,10 +17,10 @@ fun main(){
                 val userInput: String = reader.readLine()
 
                 // We turn the raw input into an arrayList of characters
-                var tamTabClient: ArrayList<Char> = ArrayList(userInput.toList())
-                writer.write("Original Input Array ${tamTabClient}\n")
-                tamTabClient = sortTamServer(tamTabClient)
-                writer.write("Sorted Input Array ${tamTabClient}\n")
+                var tamTabServer: ArrayList<Char> = ArrayList(userInput.toList())
+                writer.write("Original Input Array ${tamTabServer}\n")
+                tamTabServer = sortTamServer(tamTabServer)
+                writer.write("Sorted Input Array ${tamTabServer}\n")
                 writer.flush()
             }
         }
