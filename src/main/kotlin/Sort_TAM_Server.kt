@@ -17,7 +17,7 @@ fun sortTamServer(arr: ArrayList<Char>): ArrayList<Char> {
     var high: Int = arr.size - 1
     var mid: Int = 0
     while (mid <= high) {
-        when (arr[mid]) {
+        when (arr[mid].uppercaseChar()) {
             'T' -> {
                 swapServer(arr, low, mid)
                 mid ++
