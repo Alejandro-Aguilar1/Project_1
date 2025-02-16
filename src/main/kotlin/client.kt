@@ -8,15 +8,16 @@ fun main(){
     val inputBuilder = StringBuilder()
     while (true) {
         val line = scanner.nextLine()
-        if (line == "#") break
-        inputBuilder.append(line).append("\n")
+        inputBuilder.append(line)
+        if (line.last() == '#') break
     }
 
-    val tamTabClient = inputBuilder.toString().dropLast(1)
+    val tamTabClient = inputBuilder.dropLast(1)
 
     Socket("localhost", 9999).use { socket ->
         val writer = socket.outputStream.bufferedWriter()
         writer.write("$tamTabClient\n")
+        println("$tamTabClient")
         writer.flush()
 
         socket.getInputStream().bufferedReader().use { reader ->

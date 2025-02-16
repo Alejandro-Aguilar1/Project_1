@@ -15,9 +15,10 @@ fun main(){
             client.getOutputStream().bufferedWriter().use{ writer ->
                 // We take the raw input of the user
                 val userInput: String = reader.readLine()
+                println("Received input: '$userInput'")
 
                 // We turn the raw input into an arrayList of characters
-                var tamTabServer: ArrayList<Char> = ArrayList(userInput.toList())
+                var tamTabServer = ArrayList(userInput.filter { it in "TAMtam" }.toList())
                 writer.write("Original Input Array ${tamTabServer}\n")
                 tamTabServer = sortTamServer(tamTabServer)
                 writer.write("Sorted Input Array ${tamTabServer}\n")
