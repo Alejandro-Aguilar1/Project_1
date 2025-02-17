@@ -1,6 +1,4 @@
 // File: client.kt
-package client
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.Socket

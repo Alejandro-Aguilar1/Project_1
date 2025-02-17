@@ -10,7 +10,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
-import client.sendMessageExportable // Importing from client.kt file
+//import client.sendMessageExportable // Importing from client.kt file
 
 // Sealed class for navigation screens
 sealed class Screen {
