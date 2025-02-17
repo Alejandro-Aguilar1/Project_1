@@ -18,7 +18,7 @@ suspend fun sendMessageExportable(message: String): List<String> {
                 // Read the response lines until the end of the stream.
                 while (true) {
                     val line = reader.readLine() ?: break
-                    TAM_TAB_Client.add("Received: $line")
+                    TAM_TAB_Client.add(line)
                 }
                 //print(TAM_TAB_Client)
             }

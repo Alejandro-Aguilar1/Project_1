@@ -1,10 +1,13 @@
 // File: main.kt
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -13,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 import kotlinx.coroutines.*
+import androidx.compose.ui.graphics.Color
 //import client.sendMessageExportable // Importing from client.kt file
 
 // Sealed class for navigation screens
@@ -74,7 +78,10 @@ fun landingPage(onOverviewClick: () -> Unit,
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Welcome!", style = MaterialTheme.typography.h4)
+        Text(text = "CSCE 3335 Project 1: Client-Server TAM Sorter",
+            style = MaterialTheme.typography.h4,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = onOverviewClick,
@@ -116,6 +123,13 @@ fun landingPage(onOverviewClick: () -> Unit,
         ) {
             Text(if (isServerRunning) "Stop Server" else "Start Server")
         }
+        Button(
+            onClick = { exitProcess(0) },
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+        ) {
+            Text("Exit")
+        }
 
     }
 }
@@ -126,12 +140,18 @@ fun overviewPage(onBackClick: () -> Unit) {
         Text(text = "Project Overview", style = MaterialTheme.typography.h4)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "This project demonstrates a simple socket client integrated with " +
-                    "a Compose Multiplatform UI and basic navigation between pages." +
-                    " The client sends a message containing T's, A's, and M's to the server. " +
-                    "The server sorts the characters and sends them back to the client. ",
+            text = "This project implements a client-server application using TCP/IP socket programming " +
+                    "integrated with a Compose Multiplatform UI and basic navigation between screens. " +
+                    "The client collects a user-defined input string composed of the letters T, A, and M (terminated by a '#'), " +
+                    "stores it in an array (TAM_TAB_Client), and sends it to the server. The server receives this input into " +
+                    "an array (TAM_TAB_Server) and sorts it using a specialized algorithm (Sort_TAM_Server) that reorders " +
+                    "the letters so that all T's appear first, followed by A's, and then M's. This sorting algorithm " +
+                    "operates in-place, evaluates each character only once, and only performs swaps when necessary, " +
+                    "meeting strict design constraints. Once sorted, the server returns both the original and sorted arrays " +
+                    "to the client for display. \nCreated by: Alejandro Aguilar & Gael Mota",
             style = MaterialTheme.typography.body1
         )
+
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onBackClick) {
             Text("Back")
@@ -152,7 +172,19 @@ fun clientPage(onBackClick: () -> Unit) {
             Button(onClick = onBackClick) {
                 Text("Back")
             }
+            Spacer(modifier = Modifier.width(16.dp))
+            // Clear text button
+            Button(onClick = {outputMessages.clear()}) {
+                Text("Clear Text")
+            }
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        // Instruction text.
+        Text(
+            text = "Enter a sequence of capital T's, M's, and A's. End it with a '#' sign.",
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.fillMaxWidth()
+        )
         Spacer(modifier = Modifier.height(8.dp))
         // Output area with vertical scroll.
         Box(
@@ -160,6 +192,8 @@ fun clientPage(onBackClick: () -> Unit) {
                 .weight(1f)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
+                .padding(8.dp)
+                .border(width = 1.dp, color = Color.Black)
                 .padding(8.dp)
         ) {
             Column {
