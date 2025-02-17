@@ -20,6 +20,7 @@ suspend fun sendMessageExportable(message: String): List<String> {
                     val line = reader.readLine() ?: break
                     TAM_TAB_Client.add("Received: $line")
                 }
+                //print(TAM_TAB_Client)
             }
         } catch (e: Exception) {
             TAM_TAB_Client.add("Error: ${e.message}")

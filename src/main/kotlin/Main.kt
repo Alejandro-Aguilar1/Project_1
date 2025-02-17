@@ -8,8 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
+import kotlinx.coroutines.*
 //import client.sendMessageExportable // Importing from client.kt file
 
 // Sealed class for navigation screens
@@ -20,13 +23,29 @@ sealed class Screen {
 }
 
 fun main() = application {
-    Window(onCloseRequest = { exitProcess(0) }, title = "Client GUI") {
+    val appScope = remember { CoroutineScope(Dispatchers.IO) }
+    Window(onCloseRequest = {
+        appScope.cancel()
+        exitProcess(0) }, title = "Client GUI") {
         MaterialTheme {
             var currentScreen by remember { mutableStateOf<Screen>(Screen.Landing) }
+            var isServerRunning by remember { mutableStateOf(false) }
+            var serverJob by remember { mutableStateOf<Job?>(null) }
+            var canToggleServer by remember { mutableStateOf(true) }
+
             when (currentScreen) {
                 is Screen.Landing -> LandingPage(
                     onOverviewClick = { currentScreen = Screen.Overview },
-                    onClientClick = { currentScreen = Screen.Client }
+                    onClientClick = { currentScreen = Screen.Client },
+                    isServerRunning = isServerRunning,
+                    serverJob = serverJob,
+                    onToggleServer = { newState, newJob ->
+                        isServerRunning = newState
+                        serverJob = newJob
+                    },
+                    onUpdateCanToggle = { newValue -> canToggleServer = newValue },
+                    canToggleServer = canToggleServer,
+                    appScope = appScope
                 )
                 is Screen.Overview -> OverviewPage(
                     onBackClick = { currentScreen = Screen.Landing }
@@ -40,7 +59,15 @@ fun main() = application {
 }
 
 @Composable
-fun LandingPage(onOverviewClick: () -> Unit, onClientClick: () -> Unit) {
+fun LandingPage(onOverviewClick: () -> Unit,
+                onClientClick: () -> Unit,
+                appScope: CoroutineScope,
+                isServerRunning: Boolean,
+                serverJob: Job?,
+                canToggleServer: Boolean,
+                onToggleServer: (Boolean, Job?) -> Unit,
+                onUpdateCanToggle: (Boolean) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,6 +88,35 @@ fun LandingPage(onOverviewClick: () -> Unit, onClientClick: () -> Unit) {
         ) {
             Text("Run Client")
         }
+        Button(
+            onClick = {
+                if (!isServerRunning) {
+                    // Start Server logic
+                    val job = appScope.launch {
+                        startServer(9999)
+                    }
+                    onToggleServer(true, job)
+                } else {
+                    // stop server logic
+                    currentServerSocket?.close()
+
+                    serverJob?.cancel() // Triggers CancellationException in startServer
+                    onToggleServer(false, null)
+
+                    onUpdateCanToggle(false)
+                    appScope.launch {
+                        delay(1500)
+                        onUpdateCanToggle(true)
+                        // Display some message or something idk
+                    }
+                }
+            },
+            enabled = canToggleServer,
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+        ) {
+            Text(if (isServerRunning) "Stop Server" else "Start Server")
+        }
+
     }
 }
 
