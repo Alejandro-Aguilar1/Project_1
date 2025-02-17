@@ -127,7 +127,9 @@ fun OverviewPage(onBackClick: () -> Unit) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "This project demonstrates a simple socket client integrated with " +
-                    "a Compose Multiplatform UI and basic navigation between pages.",
+                    "a Compose Multiplatform UI and basic navigation between pages." +
+                    " The client sends a message containing T's, A's, and M's to the server. " +
+                    "The server sorts the characters and sends them back to the client. ",
             style = MaterialTheme.typography.body1
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -178,21 +180,27 @@ fun ClientPage(onBackClick: () -> Unit) {
         // Send button.
         Button(
             onClick = {
-                val trimmedInput = inputText.trim().let {
-                    if (it.endsWith("#")) it.dropLast(1) else it
-                }
-                if (trimmedInput.isNotEmpty()) {
-                    outputMessages.add("Sending: $trimmedInput")
-                    inputText = ""
-                    // Use the function from client.kt for sending a message.
-                    coroutineScope.launch {
-                        val responses = sendMessageExportable(trimmedInput)
-                        responses.forEach { response ->
-                            outputMessages.add(response)
+                val input = inputText.trim()
+                if (!input.endsWith("#")) {
+                    outputMessages.add("Error: Message must end with '#'")
+                } else {
+                    val messageContent = input.substringBefore("#")
+                    if (messageContent.isNotEmpty()) {
+                        outputMessages.add("Sending: $messageContent")
+                        inputText = ""
+                        // Use the function from client.kt for sending a message.
+                        coroutineScope.launch {
+                            val responses = sendMessageExportable(messageContent)
+                            responses.forEach { response ->
+                                outputMessages.add(response)
+                            }
                         }
+                    } else {
+                        outputMessages.add("Error: Message cannot be empty")
                     }
                 }
             },
+
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Send")
