@@ -34,7 +34,7 @@ fun main() = application {
             var canToggleServer by remember { mutableStateOf(true) }
 
             when (currentScreen) {
-                is Screen.Landing -> LandingPage(
+                is Screen.Landing -> landingPage(
                     onOverviewClick = { currentScreen = Screen.Overview },
                     onClientClick = { currentScreen = Screen.Client },
                     isServerRunning = isServerRunning,
@@ -47,10 +47,10 @@ fun main() = application {
                     canToggleServer = canToggleServer,
                     appScope = appScope
                 )
-                is Screen.Overview -> OverviewPage(
+                is Screen.Overview -> overviewPage(
                     onBackClick = { currentScreen = Screen.Landing }
                 )
-                is Screen.Client -> ClientPage(
+                is Screen.Client -> clientPage(
                     onBackClick = { currentScreen = Screen.Landing }
                 )
             }
@@ -59,7 +59,7 @@ fun main() = application {
 }
 
 @Composable
-fun LandingPage(onOverviewClick: () -> Unit,
+fun landingPage(onOverviewClick: () -> Unit,
                 onClientClick: () -> Unit,
                 appScope: CoroutineScope,
                 isServerRunning: Boolean,
@@ -121,7 +121,7 @@ fun LandingPage(onOverviewClick: () -> Unit,
 }
 
 @Composable
-fun OverviewPage(onBackClick: () -> Unit) {
+fun overviewPage(onBackClick: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(text = "Project Overview", style = MaterialTheme.typography.h4)
         Spacer(modifier = Modifier.height(16.dp))
@@ -140,7 +140,7 @@ fun OverviewPage(onBackClick: () -> Unit) {
 }
 
 @Composable
-fun ClientPage(onBackClick: () -> Unit) {
+fun clientPage(onBackClick: () -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     var inputText by remember { mutableStateOf("") }
     val outputMessages = remember { mutableStateListOf<String>() }
