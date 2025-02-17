@@ -2,7 +2,6 @@
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -17,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 import kotlinx.coroutines.*
 import androidx.compose.ui.graphics.Color
-//import client.sendMessageExportable // Importing from client.kt file
 
 // Sealed class for navigation screens
 sealed class Screen {
