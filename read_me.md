@@ -8,4 +8,9 @@ Again, we highly recommend running the project through IntelliJ Ultimate so the 
 
 If you have any issues getting the project running, please let us know.
 
+To create an executable of this program run this command in the root directory of the project.
+```bash
+/.gradlew package
+```
+
 Gael Mota, Alejandro Aguilar.
