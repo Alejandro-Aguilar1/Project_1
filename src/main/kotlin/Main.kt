@@ -76,7 +76,7 @@ fun landingPage(onOverviewClick: () -> Unit,
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "CSCE 3335 Project 1: Client-Server TAM Sorter",
+        Text(text = "CSCE 3335 Project 1: Client-Server TAM Sorter\n by Gael Mota and Alejandro Aguilar",
             style = MaterialTheme.typography.h4,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center)

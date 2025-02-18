@@ -44,7 +44,7 @@ suspend fun startServer(port: Int) = coroutineScope {
             try {
                 server.close()
             } catch (e: Exception) {
-                // Log or something idk
+                // Log an exception
             }
             // Ensure the server socket is closed whether or not an exception occurs
             println("Server closed")
@@ -56,7 +56,6 @@ suspend fun startServer(port: Int) = coroutineScope {
 
 /**
  * Handle the request/response cycle for a single client.
- * You can still use suspension if you want (e.g., to do further I/O).
  */
 private suspend fun handleClient(socket: Socket) = withContext(Dispatchers.IO) {
     socket.use { client ->
